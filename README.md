@@ -1,1 +1,2 @@
-# schemacan-go
+# SchemaCAN
+
