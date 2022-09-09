@@ -22,9 +22,9 @@ func (m TypeMeta) Validate() error {
 }
 
 type ObjectMeta struct {
-	Name      string `yaml:"name,omitempty"`
-	Namespace string `yaml:"namespace,omitempty"`
-	Labels    string `yaml:"labels,omitempty"`
+	Name      string            `yaml:"name,omitempty"`
+	Namespace string            `yaml:"namespace,omitempty"`
+	Labels    map[string]string `yaml:"labels,omitempty"`
 }
 
 func (m ObjectMeta) Validate() error {
