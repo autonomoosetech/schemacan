@@ -15,3 +15,7 @@ vet: fmt
 test: vet
 	go test -v ./...
 .PHONY: test
+
+install: test
+	go install -v ./...
+.PHONY: install
