@@ -26,4 +26,14 @@ func TestSLOTValidate(t *testing.T) {
 	if s.Validate() == nil {
 		t.Errorf("expected validate to fail with empty values")
 	}
+
+	s.Size = 64
+	if s.Validate() != nil {
+		t.Errorf("expected validate to pass with size within bounds")
+	}
+
+	s.Size = 65
+	if s.Validate() == nil {
+		t.Errorf("expected validate to fail with size outside of bounds")
+	}
 }
