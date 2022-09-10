@@ -38,3 +38,20 @@ func (m ObjectMeta) Validate() error {
 
 	return nil
 }
+
+// scaling, limit, offset, transfer function
+type SLOT struct {
+	Min    float64 `yaml:"min"`
+	Max    float64 `yaml:"max"`
+	Offset float64 `yaml:"offset"`
+	Size   uint8   `yaml:"size"`
+	Unit   string  `yaml:"unit,omitempty"`
+}
+
+func (s SLOT) Validate() error {
+	if s.Size < 1 || s.Size > 64 {
+		return fmt.Errorf("size must be between 0 and 64, was: %d", s.Size)
+	}
+
+	return nil
+}

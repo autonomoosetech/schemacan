@@ -19,3 +19,11 @@ func TestObjectMetaValidate(t *testing.T) {
 		t.Errorf("expected validate to fail with empty values")
 	}
 }
+
+func TestSLOTValidate(t *testing.T) {
+	s := SLOT{}
+
+	if s.Validate() == nil {
+		t.Errorf("expected validate to fail with empty values")
+	}
+}
