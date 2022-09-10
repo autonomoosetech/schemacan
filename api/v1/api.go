@@ -55,3 +55,28 @@ func (s SLOT) Validate() error {
 
 	return nil
 }
+
+type Identifier struct {
+	Standard uint16 `yaml:"standard,omitempty"`
+	Extended uint32 `yaml:"extended,omitempty"`
+	J1939    struct {
+		Priority         uint8 `yaml:"priority,omitempty"`
+		DataPage         bool  `yaml:"data_page,omitempty"`
+		ExtendedDataPage bool  `yaml:"extended_data_page,omitempty"`
+		PDUFormat        uint8 `yaml:"pdu_format,omitempty"`
+		PDUSpecific      uint8 `yaml:"pdu_specific,omitempty"`
+		SourceAddress    uint8 `yaml:"source_address,omitempty"`
+	} `yaml:"j1939,omitempty"`
+}
+
+func (i Identifier) Validate() error {
+	if i.Standard > 2^11-1 {
+		return fmt.Errorf("standard identifier too large")
+	}
+
+	if i.Extended > 2^29-1 {
+		return fmt.Errorf("extended identifier too large")
+	}
+
+	return nil
+}
