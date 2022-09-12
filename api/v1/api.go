@@ -22,17 +22,19 @@ func (m TypeMeta) Validate() error {
 }
 
 type ObjectMeta struct {
-	Name      string            `yaml:"name,omitempty"`
-	Namespace string            `yaml:"namespace,omitempty"`
-	Labels    map[string]string `yaml:"labels,omitempty"`
+	Metadata struct {
+		Name      string            `yaml:"name,omitempty"`
+		Namespace string            `yaml:"namespace,omitempty"`
+		Labels    map[string]string `yaml:"labels,omitempty"`
+	} `yaml:"metadata,omitempty"`
 }
 
 func (m ObjectMeta) Validate() error {
-	if m.Name == "" {
+	if m.Metadata.Name == "" {
 		return fmt.Errorf("name must be set")
 	}
 
-	if m.Namespace == "" {
+	if m.Metadata.Namespace == "" {
 		return fmt.Errorf("namespace must be set")
 	}
 
@@ -41,16 +43,20 @@ func (m ObjectMeta) Validate() error {
 
 // scaling, limit, offset, transfer function
 type SLOT struct {
-	Min    float64 `yaml:"min"`
-	Max    float64 `yaml:"max"`
-	Offset float64 `yaml:"offset"`
-	Size   uint8   `yaml:"size"`
-	Unit   string  `yaml:"unit,omitempty"`
+	TypeMeta   `yaml:",inline"`
+	ObjectMeta `yaml:",inline"`
+	Spec       struct {
+		Min    float64 `yaml:"min"`
+		Max    float64 `yaml:"max"`
+		Offset float64 `yaml:"offset"`
+		Size   uint8   `yaml:"size"`
+		Unit   string  `yaml:"unit,omitempty"`
+	} `yaml:"spec"`
 }
 
 func (s SLOT) Validate() error {
-	if s.Size < 1 || s.Size > 64 {
-		return fmt.Errorf("size must be between 0 and 64, was: %d", s.Size)
+	if s.Spec.Size < 1 || s.Spec.Size > 64 {
+		return fmt.Errorf("size must be between 0 and 64, was: %d", s.Spec.Size)
 	}
 
 	return nil
