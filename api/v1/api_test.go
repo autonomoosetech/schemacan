@@ -4,16 +4,16 @@ import (
 	"testing"
 )
 
-func TestTypeMetaValidate(t *testing.T) {
-	m := TypeMeta{}
+func TestResourceValidate(t *testing.T) {
+	m := Resource{}
 
 	if m.Validate() == nil {
 		t.Errorf("expected validate to fail with empty values")
 	}
 }
 
-func TestObjectMetaValidate(t *testing.T) {
-	m := ObjectMeta{}
+func TestMetadataValidate(t *testing.T) {
+	m := Metadata{}
 
 	if m.Validate() == nil {
 		t.Errorf("expected validate to fail with empty values")
@@ -27,12 +27,12 @@ func TestSLOTValidate(t *testing.T) {
 		t.Errorf("expected validate to fail with empty values")
 	}
 
-	s.Spec.Size = 64
+	s.Size = 64
 	if s.Validate() != nil {
 		t.Errorf("expected validate to pass with size within bounds")
 	}
 
-	s.Spec.Size = 65
+	s.Size = 65
 	if s.Validate() == nil {
 		t.Errorf("expected validate to fail with size outside of bounds")
 	}

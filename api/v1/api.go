@@ -5,45 +5,60 @@ import (
 )
 
 //
-// Type metadata
+// Object metadata
 //
 
-type TypeMeta struct {
-	Version string `yaml:"version"`
-	Kind    string `yaml:"kind"`
+type Metadata struct {
+	Name      string            `yaml:"name,omitempty"`
+	Namespace string            `yaml:"namespace,omitempty"`
+	Labels    map[string]string `yaml:"labels,omitempty"`
 }
 
-func (m TypeMeta) Validate() error {
-	if m.Version == "" {
-		return fmt.Errorf("version must be set")
+func (m Metadata) Validate() error {
+	if m.Name == "" {
+		return fmt.Errorf("name must be set")
 	}
 
-	if m.Kind == "" {
-		return fmt.Errorf("kind must be set")
+	if m.Namespace == "" {
+		return fmt.Errorf("namespace must be set")
 	}
 
 	return nil
 }
 
 //
-// Object metadata
+// Resource
 //
 
-type ObjectMeta struct {
-	Metadata struct {
-		Name      string            `yaml:"name,omitempty"`
-		Namespace string            `yaml:"namespace,omitempty"`
-		Labels    map[string]string `yaml:"labels,omitempty"`
-	} `yaml:"metadata,omitempty"`
+type Resource struct {
+	Version  string      `yaml:"version"`
+	Kind     string      `yaml:"kind"`
+	Metadata Metadata    `yaml:"metadata"`
+	Spec     interface{} `yaml:"spec"`
 }
 
-func (m ObjectMeta) Validate() error {
-	if m.Metadata.Name == "" {
-		return fmt.Errorf("name must be set")
+func (r Resource) Validate() error {
+	if r.Version == "" {
+		return fmt.Errorf("version must be set")
 	}
 
-	if m.Metadata.Namespace == "" {
-		return fmt.Errorf("namespace must be set")
+	if r.Kind == "" {
+		return fmt.Errorf("kind must be set")
+	}
+
+	err := r.Metadata.Validate()
+	if err != nil {
+		return err
+	}
+
+	switch v := r.Spec.(type) {
+	case *SLOT:
+		err = v.Validate()
+	case *Message:
+		err = v.Validate()
+	default:
+		err = fmt.Errorf("type used in resource spec is not valid: %T", v)
+		return err
 	}
 
 	return nil
@@ -54,20 +69,16 @@ func (m ObjectMeta) Validate() error {
 //
 
 type SLOT struct {
-	TypeMeta   `yaml:",inline"`
-	ObjectMeta `yaml:",inline"`
-	Spec       struct {
-		Min    float64 `yaml:"min"`
-		Max    float64 `yaml:"max"`
-		Offset float64 `yaml:"offset"`
-		Size   uint8   `yaml:"size"`
-		Unit   string  `yaml:"unit,omitempty"`
-	} `yaml:"spec"`
+	Min    float64 `yaml:"min"`
+	Max    float64 `yaml:"max"`
+	Offset float64 `yaml:"offset"`
+	Size   uint8   `yaml:"size"`
+	Unit   string  `yaml:"unit,omitempty"`
 }
 
 func (s SLOT) Validate() error {
-	if s.Spec.Size < 1 || s.Spec.Size > 64 {
-		return fmt.Errorf("size must be between 0 and 64, was: %d", s.Spec.Size)
+	if s.Size < 1 || s.Size > 64 {
+		return fmt.Errorf("size must be between 0 and 64, was: %d", s.Size)
 	}
 
 	return nil
@@ -97,6 +108,30 @@ func (i Identifier) Validate() error {
 
 	if i.Extended > 2^29-1 {
 		return fmt.Errorf("extended identifier too large")
+	}
+
+	return nil
+}
+
+//
+// Message
+//
+
+type Message struct {
+	Identifier Identifier `yaml:"id"`
+	Length     *uint8     `yaml:"length"`
+	Data       []struct {
+		Name    *string `yaml:"name,omitempty"`
+		Size    *string `yaml:"size,omitempty"`
+		SLOT    *string `yaml:"slot,omitempty"`
+		Padding *uint8  `yaml:"padding,omitempty"`
+	} `yaml:"data" json:"data"`
+}
+
+func (m Message) Validate() error {
+	err := m.Identifier.Validate()
+	if err != nil {
+		return err
 	}
 
 	return nil
