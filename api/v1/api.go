@@ -4,6 +4,10 @@ import (
 	"fmt"
 )
 
+//
+// Type metadata
+//
+
 type TypeMeta struct {
 	Version string `yaml:"version"`
 	Kind    string `yaml:"kind"`
@@ -20,6 +24,10 @@ func (m TypeMeta) Validate() error {
 
 	return nil
 }
+
+//
+// Object metadata
+//
 
 type ObjectMeta struct {
 	Metadata struct {
@@ -41,7 +49,10 @@ func (m ObjectMeta) Validate() error {
 	return nil
 }
 
-// scaling, limit, offset, transfer function
+//
+// Scaling, limit, offset, transfer function
+//
+
 type SLOT struct {
 	TypeMeta   `yaml:",inline"`
 	ObjectMeta `yaml:",inline"`
@@ -61,6 +72,10 @@ func (s SLOT) Validate() error {
 
 	return nil
 }
+
+//
+// Identifier
+//
 
 type Identifier struct {
 	Standard uint16 `yaml:"standard,omitempty"`
