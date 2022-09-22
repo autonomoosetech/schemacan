@@ -5,7 +5,7 @@
 The system is made up of the following components:
 - **SchemaCAN** the specification for defining CAN Bus message formats.
 - **SCAN CLI Tool** the runner/utlity that acts as the glue between the components.
-- **Prometheus** the time-series database which store the CAN Bus messages.
+- **Loki** the time-series database which stores the CAN Bus messages.
 - **Grafana** the data visualisation tool.
 - **Alertmanager** the notification handler.
 

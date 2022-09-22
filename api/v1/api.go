@@ -89,16 +89,8 @@ func (s SLOT) Validate() error {
 //
 
 type Identifier struct {
-	Standard uint16 `yaml:"standard,omitempty"`
-	Extended uint32 `yaml:"extended,omitempty"`
-	J1939    struct {
-		Priority         uint8 `yaml:"priority,omitempty"`
-		DataPage         bool  `yaml:"data_page,omitempty"`
-		ExtendedDataPage bool  `yaml:"extended_data_page,omitempty"`
-		PDUFormat        uint8 `yaml:"pdu_format,omitempty"`
-		PDUSpecific      uint8 `yaml:"pdu_specific,omitempty"`
-		SourceAddress    uint8 `yaml:"source_address,omitempty"`
-	} `yaml:"j1939,omitempty"`
+	Standard *uint16 `yaml:"standard,omitempty"`
+	Extended *uint32 `yaml:"extended,omitempty"`
 }
 
 func (i Identifier) Validate() error {
