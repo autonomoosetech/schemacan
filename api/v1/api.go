@@ -94,12 +94,24 @@ type Identifier struct {
 }
 
 func (i Identifier) Validate() error {
-	if i.Standard > 2^11-1 {
-		return fmt.Errorf("standard identifier too large")
+	standardDef := i.Standard != nil
+	extendedDef := i.Extended != nil
+
+	if standardDef == extendedDef {
+		return fmt.Errorf("at least one and not both identifier types must be defined")
 	}
 
-	if i.Extended > 2^29-1 {
-		return fmt.Errorf("extended identifier too large")
+	if i.Standard != nil {
+
+		if *i.Standard > 2^11-1 {
+			return fmt.Errorf("standard identifier too large")
+		}
+	}
+
+	if i.Extended != nil {
+		if *i.Extended > 2^29-1 {
+			return fmt.Errorf("extended identifier too large")
+		}
 	}
 
 	return nil
