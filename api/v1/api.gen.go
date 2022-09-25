@@ -36,7 +36,7 @@ type Message struct {
 		Name *string `json:"name,omitempty"`
 
 		// Number of padding bits between signals
-		Padding *float32 `json:"padding,omitempty"`
+		Padding *int8 `json:"padding,omitempty"`
 
 		// Reference to a J1939 SLOT
 		Slot *string `json:"slot,omitempty"`
@@ -79,8 +79,8 @@ type SLOT struct {
 	// Offset of value
 	Offset *float32 `json:"offset,omitempty"`
 
-	// Number of bit the signal occupiess
-	Size *int `json:"size,omitempty"`
+	// Number of bits the signal occupiess
+	Size *int8 `json:"size,omitempty"`
 
 	// Unit of measurement
 	Unit *string `json:"unit,omitempty"`

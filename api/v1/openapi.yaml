@@ -50,8 +50,9 @@ components:
           type: number
           format: float
         size:
-          description: Number of bit the signal occupiess
+          description: Number of bits the signal occupiess
           type: integer
+          format: int8
         unit:
           description: Unit of measurement
           type: string
@@ -96,7 +97,8 @@ components:
                 type: string
               padding:
                 description: Number of padding bits between signals
-                type: number
+                type: integer
+                format: int8
     MessageResource:
       type: object
       properties:
