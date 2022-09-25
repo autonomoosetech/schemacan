@@ -1,0 +1,157 @@
+openapi: 3.0.3
+info:
+  title: SchemaCAN
+  description: An open schema for specifying CAN Bus communication.
+  contact:
+    name: Liam Kinne
+    url: https://autonomoose.technology/product/schemacan
+    email: support@autonomoose.technology
+  license:
+    name: Mozilla Public License Version 2.0
+    url: https://www.mozilla.org/en-US/MPL/2.0/
+  version: 1.0.0
+components:
+  schemas:
+    Metadata:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        namespace:
+          type: string
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+          example:
+            manufacturer: ACME Corp.
+            revision: 1.2.3
+    Signal:
+      type: object
+      properties:
+        type:
+          type: string
+    SLOT:
+      description: Slots are a J1939 construct that define how real values are encoded and decoded to and from fixed-point integers.
+      type: object
+      properties:
+        min:
+          description: Minimum possible value
+          type: number
+          format: float
+        max:
+          description: Maximum possible value
+          type: number
+          format: float
+        offset:
+          description: Offset of value
+          type: number
+          format: float
+        size:
+          description: Number of bit the signal occupiess
+          type: integer
+        unit:
+          description: Unit of measurement
+          type: string
+    SLOTResource:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        spec:
+          $ref: '#/components/schemas/SLOT'
+    Identifier:
+      type: object
+      properties:
+        standard:
+          description: 11-bit identifier
+          type: number
+        extended:
+          description: 29-bit identifier
+          type: number
+    Message:
+      description: Messages define the details of a CAN Bus frame an the format of its data
+      type: object
+      properties:
+        identifier:
+          $ref: '#/components/schemas/Identifier'
+        length:
+          type: number
+        data:
+          description: Data format
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                description: Name of the signal
+                type: string
+              type:
+                description: Number of bits the signal occupies
+                type: string
+              slot:
+                description: Reference to a J1939 SLOT
+                type: string
+              padding:
+                description: Number of padding bits between signals
+                type: number
+    MessageResource:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        spec:
+          $ref: '#/components/schemas/Message'
+    Device:
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    DeviceResource:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        spec:
+          $ref: '#/components/schemas/Device'
+paths:
+  /api/v1/devices:
+    get:
+      description: Returns all message formats
+      responses:
+        '200':
+          description: A list of messages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeviceResource'
+  /api/v1/messages:
+    get:
+      description: Returns all message formats
+      responses:
+        '200':
+          description: A list of messages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MessageResource'
+  /api/v1/slots:
+    get:
+      description: Returns all SLOTs
+      responses:
+        '200':
+          description: A list of SLOTs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SLOTResource'
