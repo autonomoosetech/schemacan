@@ -52,7 +52,7 @@ components:
         size:
           description: Number of bits the signal occupiess
           type: integer
-          format: int8
+          format: uint8
         unit:
           description: Unit of measurement
           type: string
@@ -75,16 +75,24 @@ components:
     Message:
       description: Messages define the details of a CAN Bus frame an the format of its data
       type: object
+      required:
+        - length
+        - data
       properties:
         identifier:
           $ref: '#/components/schemas/Identifier'
         length:
-          type: number
+          type: integer
+          format: uint8
+          default: 0
         data:
           description: Data format
           type: array
+          default: []
           items:
             type: object
+            required:
+              - name
             properties:
               name:
                 description: Name of the signal
@@ -98,7 +106,7 @@ components:
               padding:
                 description: Number of padding bits between signals
                 type: integer
-                format: int8
+                format: uint8
     MessageResource:
       type: object
       properties:

@@ -31,21 +31,21 @@ type Identifier struct {
 // Messages define the details of a CAN Bus frame an the format of its data
 type Message struct {
 	// Data format
-	Data *[]struct {
+	Data []struct {
 		// Name of the signal
-		Name *string `json:"name,omitempty"`
+		Name string `json:"name"`
 
 		// Number of padding bits between signals
-		Padding *int8 `json:"padding,omitempty"`
+		Padding *uint8 `json:"padding,omitempty"`
 
 		// Reference to a J1939 SLOT
 		Slot *string `json:"slot,omitempty"`
 
 		// Number of bits the signal occupies
 		Type *string `json:"type,omitempty"`
-	} `json:"data,omitempty"`
+	} `json:"data"`
 	Identifier *Identifier `json:"identifier,omitempty"`
-	Length     *float32    `json:"length,omitempty"`
+	Length     uint8       `json:"length"`
 }
 
 // MessageResource defines model for MessageResource.
@@ -80,7 +80,7 @@ type SLOT struct {
 	Offset *float32 `json:"offset,omitempty"`
 
 	// Number of bits the signal occupiess
-	Size *int8 `json:"size,omitempty"`
+	Size *uint8 `json:"size,omitempty"`
 
 	// Unit of measurement
 	Unit *string `json:"unit,omitempty"`
