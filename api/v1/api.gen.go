@@ -38,11 +38,11 @@ type Message struct {
 		// Number of padding bits between signals
 		Padding *float32 `json:"padding,omitempty"`
 
-		// Number of bits the signal occupies
-		Size *string `json:"size,omitempty"`
-
 		// Reference to a J1939 SLOT
 		Slot *string `json:"slot,omitempty"`
+
+		// Number of bits the signal occupies
+		Type *string `json:"type,omitempty"`
 	} `json:"data,omitempty"`
 	Identifier *Identifier `json:"identifier,omitempty"`
 	Length     *float32    `json:"length,omitempty"`
