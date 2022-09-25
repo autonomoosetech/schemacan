@@ -1,5 +1,9 @@
 .DEFAULT_GOAL := test
 
+gen:
+	go generate ./...
+.PHONY: gen
+
 fmt:
 	go fmt ./...
 .PHONY: fmt
