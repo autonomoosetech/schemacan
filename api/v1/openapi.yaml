@@ -28,11 +28,6 @@ components:
           example:
             manufacturer: ACME Corp.
             revision: 1.2.3
-    Signal:
-      type: object
-      properties:
-        type:
-          type: string
     SLOT:
       description: Slots are a J1939 construct that define how real values are encoded and decoded to and from fixed-point integers.
       type: object
@@ -72,6 +67,24 @@ components:
         extended:
           description: 29-bit identifier
           type: number
+    Signal:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          description: Name of the signal
+          type: string
+        type:
+          description: Number of bits the signal occupies
+          type: string
+        slot:
+          description: Reference to a J1939 SLOT
+          type: string
+        padding:
+          description: Number of padding bits between signals
+          type: integer
+          format: uint8
     Message:
       description: Messages define the details of a CAN Bus frame an the format of its data
       type: object
@@ -90,23 +103,7 @@ components:
           type: array
           default: []
           items:
-            type: object
-            required:
-              - name
-            properties:
-              name:
-                description: Name of the signal
-                type: string
-              type:
-                description: Number of bits the signal occupies
-                type: string
-              slot:
-                description: Reference to a J1939 SLOT
-                type: string
-              padding:
-                description: Number of padding bits between signals
-                type: integer
-                format: uint8
+            $ref: '#/components/schemas/Signal'
     MessageResource:
       type: object
       properties:
