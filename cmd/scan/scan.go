@@ -2,9 +2,10 @@ package main
 
 import (
 	_ "flag"
-	_ "fmt"
+	"fmt"
 	_ "io/ioutil"
 	_ "os"
+	"strconv"
 	_ "time"
 
 	_ "github.com/autonomoosetech/schemacan/api/v1"
@@ -12,6 +13,30 @@ import (
 	_ "github.com/prometheus/common/model"
 )
 
+func parseType(in string) (signed bool, size uint8, err error) {
+	// check sign
+	switch in[0] {
+	case 'u':
+		signed = false
+	case 'i':
+		signed = true
+	default:
+		return false, 0, fmt.Errorf("valid sign not present, got: %v", in[0])
+	}
+
+	// check size
+	s, err := strconv.ParseInt(in[1:], 0, 8)
+	if err != nil {
+		return false, 0, err
+	}
+	if s > 255 {
+		return false, 0, fmt.Errorf("type size of %v is too large", s)
+	}
+	size = uint8(s)
+
+	// return ok
+	return signed, size, err
+}
 func main() {
 	return
 }
