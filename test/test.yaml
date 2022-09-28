@@ -1,0 +1,30 @@
+version: v1
+kind: device
+metadata:
+  name: foo
+spec:
+  messages:
+    - bar
+---
+version: v1
+kind: message
+metadata:
+  name: bar
+spec:
+  id:
+    standard: 0x123
+  data:
+    - name: alpha
+      type: i8
+    - padding: 4
+    - slot: baz
+---
+version: v1
+kind: slot
+metadata:
+  name: baz
+spec:
+  min: 0
+  max: 100
+  size: 8
+  unit: 'mV'
