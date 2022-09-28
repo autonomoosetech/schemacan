@@ -37,3 +37,17 @@ func TestSLOTValidate(t *testing.T) {
 		t.Errorf("expected validate to fail with size outside of bounds")
 	}
 }
+
+func TestIdentifierValidate(t *testing.T) {
+	i := Identifier{}
+
+	if i.Validate() == nil {
+		t.Errorf("expected failure")
+	}
+
+	i.Standard = new(uint16)
+	*i.Standard = 0
+	if i.Validate() != nil {
+		t.Errorf("expected success")
+	}
+}
