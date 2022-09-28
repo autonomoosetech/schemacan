@@ -1,0 +1,36 @@
+#background: transparent
+#stroke: #A63D40
+#fill: #222
+#ranker: tight-tree
+
+[<receiver> Grafana] <- [<transceiver> Loki]
+[Loki] <- [<transceiver> scan Tool]
+
+[scan Tool] <- [<sender> SocketCAN]
+[scan Tool] <- [<database> SQLite]
+
+[SQLite] <-- [Message Formats]
+
+[<frame> Message Formats|
+[Device] <- [Message]
+
+[Message] <-- [Data]
+[Message] <-- [Identifier]
+
+[Data] <-- [Signal]
+[Data] <-- [<package> SLOT
+|Min
+|Max
+|Scale
+|Size]
+[Data] <-- [Padding]
+
+[Identifier] <-- [Standard]
+[Identifier] <-- [Extended]
+[Identifier] <-- [<package> J1939
+|Data Page
+|Ext. Data Page
+|PDU Format
+|PDU Specific
+|Source Address]
+]
