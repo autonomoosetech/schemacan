@@ -25,5 +25,5 @@ test: vet ## Run tests
 	go test -v ./...
 
 .PHONY: install
-install: test ## Install as executable
+install: gen test ## Install as executable
 	go install -v ./...
