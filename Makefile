@@ -27,3 +27,7 @@ test: vet ## Run tests
 .PHONY: install
 install: gen test ## Install as executable
 	go install -v ./...
+
+.PHONY: build
+build: gen test ## Build executable
+	go build -v ./...
