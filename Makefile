@@ -1,29 +1,29 @@
 .DEFAULT_GOAL := help
 
+.PHONY: help
 help: ## Self documenting help output
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-10s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
-.PHONY: help
 
+.PHONY: gen
 gen: ## Generate code from OpenAPI spec
 	go generate ./...
-.PHONY: gen
 
+.PHONY: fmt
 fmt: ## Format code
 	go fmt ./...
-.PHONY: fmt
 
+.PHONY: lint
 lint: fmt ## Lint code
 	golint ./...
-.PHONY: lint
 
+.PHONY: vet
 vet: fmt ## Vet code
 	go vet ./...
-.PHONY: vet
 
+.PHONY: test
 test: vet ## Run tests
 	go test -v ./...
-.PHONY: test
 
+.PHONY: install
 install: test ## Install as executable
 	go install -v ./...
-.PHONY: install
