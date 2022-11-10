@@ -12,6 +12,28 @@ info:
   version: 1.0.0
 components:
   schemas:
+    Object:
+      type: object
+      required:
+        - version
+        - type
+        - metadata
+      properties:
+        version:
+          type: string
+        type:
+          type: string
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        spec:
+          oneOf:
+            - $ref: '#/components/schemas/SLOT'
+            - $ref: '#/components/schemas/Identifier'
+            - $ref: '#/components/schemas/Signal'
+            - $ref: '#/components/schemas/Message'
+            - $ref: '#/components/schemas/Device'
+          discriminator:
+            propertyName: type
     Metadata:
       type: object
       required:
@@ -21,6 +43,7 @@ components:
           type: string
         namespace:
           type: string
+          default: 'default'
         labels:
           type: object
           additionalProperties:
@@ -51,13 +74,6 @@ components:
         unit:
           description: Unit of measurement
           type: string
-    SLOTResource:
-      type: object
-      properties:
-        metadata:
-          $ref: '#/components/schemas/Metadata'
-        spec:
-          $ref: '#/components/schemas/SLOT'
     Identifier:
       type: object
       properties:
@@ -104,13 +120,6 @@ components:
           default: []
           items:
             $ref: '#/components/schemas/Signal'
-    MessageResource:
-      type: object
-      properties:
-        metadata:
-          $ref: '#/components/schemas/Metadata'
-        spec:
-          $ref: '#/components/schemas/Message'
     Device:
       type: object
       properties:
@@ -118,14 +127,19 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Message'
-    DeviceResource:
-      type: object
-      properties:
-        metadata:
-          $ref: '#/components/schemas/Metadata'
-        spec:
-          $ref: '#/components/schemas/Device'
 paths:
+  /api/v1/objects:
+    get:
+      description: Returns all objects
+      responses:
+        '200':
+          description: A list of objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Object'
   /api/v1/devices:
     get:
       description: Returns all message formats
@@ -137,7 +151,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/DeviceResource'
+                  $ref: '#/components/schemas/Device'
   /api/v1/messages:
     get:
       description: Returns all message formats
@@ -149,7 +163,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/MessageResource'
+                  $ref: '#/components/schemas/Message'
   /api/v1/slots:
     get:
       description: Returns all SLOTs
@@ -161,4 +175,4 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/SLOTResource'
+                  $ref: '#/components/schemas/SLOT'

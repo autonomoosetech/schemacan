@@ -13,12 +13,6 @@ type Device struct {
 	Messages *[]Message `json:"messages,omitempty"`
 }
 
-// DeviceResource defines model for DeviceResource.
-type DeviceResource struct {
-	Metadata *Metadata `json:"metadata,omitempty"`
-	Spec     *Device   `json:"spec,omitempty"`
-}
-
 // Identifier defines model for Identifier.
 type Identifier struct {
 	// 29-bit identifier
@@ -36,14 +30,6 @@ type Message struct {
 	Length     uint8       `json:"length"`
 }
 
-// MessageResource defines model for MessageResource.
-type MessageResource struct {
-	Metadata *Metadata `json:"metadata,omitempty"`
-
-	// Messages define the details of a CAN Bus frame an the format of its data
-	Spec *Message `json:"spec,omitempty"`
-}
-
 // Metadata defines model for Metadata.
 type Metadata struct {
 	Labels    *Metadata_Labels `json:"labels,omitempty"`
@@ -54,6 +40,14 @@ type Metadata struct {
 // Metadata_Labels defines model for Metadata.Labels.
 type Metadata_Labels struct {
 	AdditionalProperties map[string]string `json:"-"`
+}
+
+// Object defines model for Object.
+type Object struct {
+	Metadata Metadata     `json:"metadata"`
+	Spec     *interface{} `json:"spec,omitempty"`
+	Type     string       `json:"type"`
+	Version  string       `json:"version"`
 }
 
 // Slots are a J1939 construct that define how real values are encoded and decoded to and from fixed-point integers.
@@ -72,14 +66,6 @@ type SLOT struct {
 
 	// Unit of measurement
 	Unit *string `json:"unit,omitempty"`
-}
-
-// SLOTResource defines model for SLOTResource.
-type SLOTResource struct {
-	Metadata *Metadata `json:"metadata,omitempty"`
-
-	// Slots are a J1939 construct that define how real values are encoded and decoded to and from fixed-point integers.
-	Spec *SLOT `json:"spec,omitempty"`
 }
 
 // Signal defines model for Signal.
