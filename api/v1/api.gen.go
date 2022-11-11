@@ -8,12 +8,12 @@ import (
 	"fmt"
 )
 
-// Device defines model for Device.
+// Device defines model for device.
 type Device struct {
 	Messages *[]Message `json:"messages,omitempty"`
 }
 
-// Identifier defines model for Identifier.
+// Identifier defines model for identifier.
 type Identifier struct {
 	// 29-bit identifier
 	Extended *float32 `json:"extended,omitempty"`
@@ -30,7 +30,7 @@ type Message struct {
 	Length     uint8       `json:"length"`
 }
 
-// Metadata defines model for Metadata.
+// Metadata defines model for metadata.
 type Metadata struct {
 	Labels    *Metadata_Labels `json:"labels,omitempty"`
 	Name      string           `json:"name"`
@@ -42,7 +42,7 @@ type Metadata_Labels struct {
 	AdditionalProperties map[string]string `json:"-"`
 }
 
-// Object defines model for Object.
+// Object defines model for object.
 type Object struct {
 	Metadata Metadata     `json:"metadata"`
 	Spec     *interface{} `json:"spec,omitempty"`
@@ -50,8 +50,23 @@ type Object struct {
 	Version  string       `json:"version"`
 }
 
+// Signal defines model for signal.
+type Signal struct {
+	// Name of the signal
+	Name string `json:"name"`
+
+	// Number of padding bits between signals
+	Padding *uint8 `json:"padding,omitempty"`
+
+	// Reference to a J1939 SLOT
+	Slot *string `json:"slot,omitempty"`
+
+	// Number of bits the signal occupies
+	Type *string `json:"type,omitempty"`
+}
+
 // Slots are a J1939 construct that define how real values are encoded and decoded to and from fixed-point integers.
-type SLOT struct {
+type Slot struct {
 	// Maximum possible value
 	Max *float32 `json:"max,omitempty"`
 
@@ -66,21 +81,6 @@ type SLOT struct {
 
 	// Unit of measurement
 	Unit *string `json:"unit,omitempty"`
-}
-
-// Signal defines model for Signal.
-type Signal struct {
-	// Name of the signal
-	Name string `json:"name"`
-
-	// Number of padding bits between signals
-	Padding *uint8 `json:"padding,omitempty"`
-
-	// Reference to a J1939 SLOT
-	Slot *string `json:"slot,omitempty"`
-
-	// Number of bits the signal occupies
-	Type *string `json:"type,omitempty"`
 }
 
 // Getter for additional properties for Metadata_Labels. Returns the specified
