@@ -10,77 +10,77 @@ import (
 
 // Device defines model for device.
 type Device struct {
-	Messages *[]Message `json:"messages,omitempty"`
+	Messages *[]Message `yaml:"messages,omitempty"`
 }
 
 // Identifier defines model for identifier.
 type Identifier struct {
 	// 29-bit identifier
-	Extended *float32 `json:"extended,omitempty"`
+	Extended *float32 `yaml:"extended,omitempty"`
 
 	// 11-bit identifier
-	Standard *float32 `json:"standard,omitempty"`
+	Standard *float32 `yaml:"standard,omitempty"`
 }
 
 // Messages define the details of a CAN Bus frame an the format of its data
 type Message struct {
 	// Data format
-	Data       []Signal    `json:"data"`
-	Identifier *Identifier `json:"identifier,omitempty"`
-	Length     uint8       `json:"length"`
+	Data       []Signal    `yaml:"data"`
+	Identifier *Identifier `yaml:"identifier,omitempty"`
+	Length     uint8       `yaml:"length"`
 }
 
 // Metadata defines model for metadata.
 type Metadata struct {
-	Labels    *Metadata_Labels `json:"labels,omitempty"`
-	Name      string           `json:"name"`
-	Namespace *string          `json:"namespace,omitempty"`
+	Labels    *Metadata_Labels `yaml:"labels,omitempty"`
+	Name      string           `yaml:"name"`
+	Namespace *string          `yaml:"namespace,omitempty"`
 }
 
 // Metadata_Labels defines model for Metadata.Labels.
 type Metadata_Labels struct {
-	AdditionalProperties map[string]string `json:"-"`
+	AdditionalProperties map[string]string `yaml:"-"`
 }
 
 // Object defines model for object.
 type Object struct {
-	Metadata Metadata     `json:"metadata"`
-	Spec     *interface{} `json:"spec,omitempty"`
-	Type     string       `json:"type"`
-	Version  string       `json:"version"`
+	Metadata Metadata     `yaml:"metadata"`
+	Spec     *interface{} `yaml:"spec,omitempty"`
+	Type     string       `yaml:"type"`
+	Version  string       `yaml:"version"`
 }
 
 // Signal defines model for signal.
 type Signal struct {
 	// Name of the signal
-	Name string `json:"name"`
+	Name string `yaml:"name"`
 
 	// Number of padding bits between signals
-	Padding *uint8 `json:"padding,omitempty"`
+	Padding *uint8 `yaml:"padding,omitempty"`
 
 	// Reference to a J1939 SLOT
-	Slot *string `json:"slot,omitempty"`
+	Slot *string `yaml:"slot,omitempty"`
 
 	// Number of bits the signal occupies
-	Type *string `json:"type,omitempty"`
+	Type *string `yaml:"type,omitempty"`
 }
 
 // Slots are a J1939 construct that define how real values are encoded and decoded to and from fixed-point integers.
 type Slot struct {
 	// Maximum possible value
-	Max *float32 `json:"max,omitempty"`
+	Max *float32 `yaml:"max,omitempty"`
 
 	// Minimum possible value
-	Min *float32 `json:"min,omitempty"`
+	Min *float32 `yaml:"min,omitempty"`
 
 	// Offset of value
-	Offset *float32 `json:"offset,omitempty"`
+	Offset *float32 `yaml:"offset,omitempty"`
 
 	// Number of bits the signal occupiess
-	Size *uint8 `json:"size,omitempty"`
+	Size *uint8 `yaml:"size,omitempty"`
 
 	// Unit of measurement
-	Unit *string `json:"unit,omitempty"`
+	Unit *string `yaml:"unit,omitempty"`
 }
 
 // Getter for additional properties for Metadata_Labels. Returns the specified

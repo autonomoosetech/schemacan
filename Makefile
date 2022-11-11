@@ -7,6 +7,7 @@ help: ## Self documenting help output
 .PHONY: gen
 gen: ## Generate code from OpenAPI spec
 	go generate ./...
+	sed -i '' "s/json:/yaml:/" api/v1/api.gen.go # this is to support yaml files
 
 .PHONY: fmt
 fmt: ## Format code
