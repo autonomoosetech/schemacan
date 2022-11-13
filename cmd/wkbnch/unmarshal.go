@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"github.com/autonomoosetech/schemacan/api/v1"
 	"gopkg.in/yaml.v3"
+	"io"
 	"log"
 	"os"
 )
@@ -17,13 +19,21 @@ func objectsFromFilenames(files []string) (objects []api.Object, err error) {
 			log.Fatalln(err)
 		}
 
-		var obj api.Object
-		err = yaml.Unmarshal(dat, &obj)
-		if err != nil {
-			return nil, err
-		}
+		decoder := yaml.NewDecoder(bytes.NewBuffer(dat))
 
-		objects = append(objects, obj)
+		for {
+			var obj api.Object
+
+			err := decoder.Decode(&obj)
+			if err != nil {
+				if err == io.EOF {
+					break
+				}
+				log.Fatalf("file decode failed: %v", err)
+			}
+
+			objects = append(objects, obj)
+		}
 	}
 
 	return
