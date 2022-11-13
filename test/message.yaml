@@ -1,0 +1,12 @@
+version: v1
+type: message
+metadata:
+  name: bar
+spec:
+  id:
+    standard: 0x123
+  data:
+    - name: alpha
+      type: i8
+    - padding: 4
+    - slot: baz

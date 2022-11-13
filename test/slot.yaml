@@ -1,0 +1,9 @@
+version: v1
+type: slot
+metadata:
+  name: baz
+spec:
+  min: 0
+  max: 100
+  size: 8
+  unit: 'mV'

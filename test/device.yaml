@@ -1,0 +1,7 @@
+version: v1
+type: device
+metadata:
+  name: foo
+spec:
+  messages:
+    - bar
