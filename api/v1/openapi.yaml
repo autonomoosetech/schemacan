@@ -127,7 +127,7 @@ components:
         messages:
           type: array
           items:
-            $ref: '#/components/schemas/message'
+            type: string
 paths:
   /api/v1/objects:
     get:
