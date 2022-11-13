@@ -20,7 +20,7 @@ func objectsFromFilenames(files []string) (objects []api.Object, err error) {
 		var obj api.Object
 		err = yaml.Unmarshal(dat, &obj)
 		if err != nil {
-			break
+			return nil, err
 		}
 
 		objects = append(objects, obj)
