@@ -36,7 +36,10 @@ func (o Object) Validate() error {
 		return fmt.Errorf("object type not recognised: %v", o.Type)
 	}
 
-	obj.Validate()
+	err = obj.Validate()
+	if err != nil {
+		return fmt.Errorf("validation failed: %s", err)
+	}
 
 	return nil
 }
