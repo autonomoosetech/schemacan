@@ -8,6 +8,7 @@ help: ## Self documenting help output
 gen: ## Generate code from OpenAPI spec
 	go generate ./...
 	sed -i '' "s/json:/yaml:/" api/v1/api.gen.go # this is to support yaml files
+	sed -i '' "s/yaml:\"spec\"/yaml:\"-\"/" api/v1/api.gen.go # blank to support type substitution
 
 .PHONY: fmt
 fmt: ## Format code
