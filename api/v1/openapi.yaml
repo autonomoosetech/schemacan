@@ -18,6 +18,7 @@ components:
         - version
         - type
         - metadata
+        - spec
       properties:
         version:
           type: string
