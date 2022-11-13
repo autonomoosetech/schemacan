@@ -10,7 +10,7 @@ import (
 
 // Device defines model for device.
 type Device struct {
-	Messages *[]Message `yaml:"messages,omitempty"`
+	Messages *[]string `yaml:"messages,omitempty"`
 }
 
 // Identifier defines model for identifier.
@@ -44,10 +44,10 @@ type Metadata_Labels struct {
 
 // Object defines model for object.
 type Object struct {
-	Metadata Metadata     `yaml:"metadata"`
-	Spec     *interface{} `yaml:"spec,omitempty"`
-	Type     string       `yaml:"type"`
-	Version  string       `yaml:"version"`
+	Metadata Metadata    `yaml:"metadata"`
+	Spec     interface{} `yaml:"-"`
+	Type     string      `yaml:"type"`
+	Version  string      `yaml:"version"`
 }
 
 // Signal defines model for signal.
