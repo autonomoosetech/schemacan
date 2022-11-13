@@ -2,8 +2,9 @@ package main
 
 import (
 	"flag"
-	_ "fmt"
+	"github.com/autonomoosetech/schemacan/api/v1"
 	"log"
+	"os"
 )
 
 type Config struct {
@@ -46,13 +47,42 @@ func main() {
 	for _, obj := range objects {
 		err = obj.Validate()
 		if err != nil {
-			log.Fatalf("failed validation: %v", err)
+			log.Fatalf("object failed validation: %v", err)
 		}
 	}
 
 	log.Printf("parsed in %d objects from %d files", len(objects), len(files))
 
 	// generate code
+
+	slot := api.Slot{
+		Max:    100.0,
+		Min:    0.0,
+		Offset: 0,
+		Size:   8,
+		Unit:   "mV",
+	}
+
+	slots := []api.Slot{slot}
+
+	out, err := templateSlots(slots)
+	if err != nil {
+		panic(err)
+	}
+
+	log.Println(*config.Out + "/slot.h")
+
+	f, err := os.Create(*config.Out + "/slot.h")
+	if err != nil {
+		log.Fatalf("%v", err)
+	}
+	defer f.Close()
+	_, err = f.Write(out.Bytes())
+	if err != nil {
+		log.Fatalf("%v", err)
+	}
+
+	log.Println(out)
 
 	// output
 }
