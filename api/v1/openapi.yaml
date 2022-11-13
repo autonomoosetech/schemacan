@@ -55,13 +55,19 @@ components:
     slot:
       description: Slots are a J1939 construct that define how real values are encoded and decoded to and from fixed-point integers.
       type: object
+      required:
+        - max
+        - min
+        - offset
+        - size
+        - unit
       properties:
-        min:
-          description: Minimum possible value
-          type: number
-          format: float
         max:
           description: Maximum possible value
+          type: number
+          format: float
+        min:
+          description: Minimum possible value
           type: number
           format: float
         offset:

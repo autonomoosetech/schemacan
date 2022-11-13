@@ -68,19 +68,19 @@ type Signal struct {
 // Slots are a J1939 construct that define how real values are encoded and decoded to and from fixed-point integers.
 type Slot struct {
 	// Maximum possible value
-	Max *float32 `yaml:"max,omitempty"`
+	Max float32 `yaml:"max"`
 
 	// Minimum possible value
-	Min *float32 `yaml:"min,omitempty"`
+	Min float32 `yaml:"min"`
 
 	// Offset of value
-	Offset *float32 `yaml:"offset,omitempty"`
+	Offset float32 `yaml:"offset"`
 
 	// Number of bits the signal occupiess
-	Size *uint8 `yaml:"size,omitempty"`
+	Size uint8 `yaml:"size"`
 
 	// Unit of measurement
-	Unit *string `yaml:"unit,omitempty"`
+	Unit string `yaml:"unit"`
 }
 
 // Getter for additional properties for Metadata_Labels. Returns the specified
